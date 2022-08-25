@@ -2,8 +2,10 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
 import CardBanner from "../components/CardBanner";
+import PlayerCard from "../components/PlayerCard";
 import { Box } from "@mui/system";
 import { Grid } from "@mui/material";
+import { parse } from "graphql";
 
 function TeamCard(props) {
   const { name } = useParams();
@@ -16,13 +18,13 @@ function TeamCard(props) {
     console.log(data);
   }
 
-  if (error) {
-    console.log(error);
-  }
+  const players = [...data.getTeambyName[0].players];
+
+  players.sort((a, b) => parseFloat(b.capHit) - parseFloat(a.capHit));
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <Grid container>
+      <Grid container spacing={3}>
         <Grid item xs={12}>
           {error ? (
             <h1>Error</h1>
@@ -35,6 +37,19 @@ function TeamCard(props) {
             />
           )}
         </Grid>
+        {players.slice(0, 2).map((player) => (
+          <Grid item xs={12} md={4} lg={4}>
+            <PlayerCard
+              name={player.name}
+              position={player.position}
+              age={player.age}
+              caphit={player.capHit}
+              yearsRemaining={player.yearsRemaining}
+              capPercentage={player.capPercentage}
+              clauses={player.clauses}
+            />
+          </Grid>
+        ))}
       </Grid>
     </Box>
   );

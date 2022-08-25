@@ -17,8 +17,7 @@ function App() {
       <MenuBar />
       <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/teams" element={<Teams />} />
+          <Route path="/" element={<Teams />} />
           <Route path="/teams/:name" element={<TeamCard />} />
         </Routes>
       </Container>
