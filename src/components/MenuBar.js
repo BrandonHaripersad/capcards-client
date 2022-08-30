@@ -1,20 +1,31 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Container from "@mui/material/Container";
 
 function MenuBar() {
+  const [navBg, setNavBg] = useState("blue");
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname == "/teams/flames") {
+      setNavBg("#D2001C");
+    } else if (location.pathname == "/teams/mapleleafs") {
+      setNavBg("#00205B");
+    }
+  }, [location]);
+
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" sx={{ backgroundColor: navBg }}>
         <Container maxWidth="md">
           <Toolbar disableGutters="true">
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              News
+              NHL Salary Cap Cards
             </Typography>
             <Button color="inherit" component={Link} to="/">
               Home

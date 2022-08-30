@@ -6,7 +6,7 @@ import Moment from "react-moment";
 
 function CardBanner(props) {
   return (
-    <Card sx={{ display: "flex", alignItems: "center" }}>
+    <Card sx={{ display: "flex", alignItems: "center" }} elevation="0">
       <CardMedia
         component="img"
         sx={{ width: 85, padding: 1, paddingLeft: 3 }}

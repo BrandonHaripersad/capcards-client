@@ -20,98 +20,122 @@ const team_names = [
   {
     name: "Ducks",
     city: "Anaheim",
+    route: "ducks",
   },
   {
     name: "Coyotes",
     city: "Arizona",
+    route: "coyotes",
   },
   {
     name: "Flames",
     city: "Calgary",
+    route: "flames",
   },
   {
     name: "Golden Knights",
     city: "Vegas",
+    route: "goldenknights",
   },
   {
     name: "Kraken",
     city: "Seattle",
+    route: "kraken",
   },
   {
     name: "Oilers",
     city: "Edmonton",
+    route: "oilers",
   },
   {
     name: "Kings",
     city: "Los Angeles",
+    route: "kings",
   },
   {
     name: "Sharks",
     city: "San Jose",
+    route: "sharks",
   },
   {
     name: "Canucks",
     city: "Vancouver",
+    route: "canucks",
   },
   {
     name: "Blackhawks",
     city: "Chicago",
+    route: "blackhawks",
   },
   {
     name: "Avalanche",
     city: "Colorado",
+    route: "avalanche",
   },
   {
     name: "Stars",
     city: "Dallas",
+    route: "stars",
   },
   {
     name: "Wild",
     city: "Minnesota",
+    route: "wild",
   },
   {
     name: "Predators",
     city: "Nashville",
+    route: "predators",
   },
   {
     name: "Blues",
     city: "St. Louis",
+    route: "blues",
   },
   {
     name: "Jets",
     city: "Winnipeg",
+    route: "jets",
   },
   {
     name: "Bruins",
     city: "Boston",
+    route: "bruins",
   },
   {
     name: "Sabres",
     city: "Buffalo",
+    route: "sabres",
   },
   {
     name: "Red Wings",
     city: "Detroit",
+    route: "redwings",
   },
   {
     name: "Panthers",
     city: "Florida",
+    route: "panthers",
   },
   {
     name: "Canadiens",
     city: "Montréal",
+    route: "canadiens",
   },
   {
     name: "Senators",
     city: "Ottawa",
+    route: "senators",
   },
   {
     name: "Lightning",
     city: "Tampa Bay",
+    route: "lightning",
   },
   {
-    name: "Leafs",
+    name: "Maple Leafs",
     city: "Toronto",
+    route: "mapleleafs",
   },
 ];
 
@@ -149,7 +173,7 @@ function Teams() {
           .map((team) => (
             <Grid item xs={4}>
               <Link
-                to={`/teams/${team.name}`}
+                to={`/teams/${team.route}`}
                 style={{ textDecoration: "none" }}
               >
                 <Item>
