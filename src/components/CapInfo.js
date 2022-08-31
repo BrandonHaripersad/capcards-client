@@ -18,7 +18,7 @@ function CapInfo(props) {
             <Typography variant="body1" component="h1" align="center">
               The {props.teamname} have
             </Typography>
-            <Typography variant="h6" align="center">
+            <Typography variant="h6" align="center" color="green">
               ${capHit.toLocaleString(undefined, { maximumFractionDigits: 2 })}{" "}
             </Typography>
             <Typography variant="body1" align="center">
@@ -31,7 +31,7 @@ function CapInfo(props) {
           <Typography variant="body1" component="h1" align="center">
             The {props.teamname} are
           </Typography>
-          <Typography variant="h6" align="center">
+          <Typography variant="h6" align="center" color="red">
             $
             {Math.abs(capHit).toLocaleString(undefined, {
               maximumFractionDigits: 2,

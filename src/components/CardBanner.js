@@ -3,8 +3,16 @@ import Box from "@mui/material/Box";
 import { CardContent, CardMedia, Typography } from "@mui/material";
 import Card from "@mui/material/Card";
 import Moment from "react-moment";
+import teamNames from "../data/teams";
+
+function getTeamName(name) {
+  const index = teamNames.map((e) => e.route).indexOf(name);
+  const res = teamNames[index].city.concat(" ", teamNames[index].name);
+  return res;
+}
 
 function CardBanner(props) {
+  const fullName = getTeamName(props.teamname);
   return (
     <Card sx={{ display: "flex", alignItems: "center" }} elevation="0">
       <CardMedia
@@ -16,7 +24,7 @@ function CardBanner(props) {
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <CardContent>
           <Typography bolded variant="h4" component="h1" pl={1}>
-            {props.teamname}
+            {fullName}
           </Typography>
           <Typography bolded variant="subtitle1" pl={1}>
             as of:

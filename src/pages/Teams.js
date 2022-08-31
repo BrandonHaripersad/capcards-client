@@ -7,6 +7,7 @@ import { styled } from "@mui/material/styles";
 import { Link } from "react-router-dom";
 import { TextField, Typography } from "@mui/material";
 import { useState } from "react";
+import teamNames from "../data/teams";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -15,129 +16,6 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: theme.palette.text.secondary,
 }));
-
-const team_names = [
-  {
-    name: "Ducks",
-    city: "Anaheim",
-    route: "ducks",
-  },
-  {
-    name: "Coyotes",
-    city: "Arizona",
-    route: "coyotes",
-  },
-  {
-    name: "Flames",
-    city: "Calgary",
-    route: "flames",
-  },
-  {
-    name: "Golden Knights",
-    city: "Vegas",
-    route: "goldenknights",
-  },
-  {
-    name: "Kraken",
-    city: "Seattle",
-    route: "kraken",
-  },
-  {
-    name: "Oilers",
-    city: "Edmonton",
-    route: "oilers",
-  },
-  {
-    name: "Kings",
-    city: "Los Angeles",
-    route: "kings",
-  },
-  {
-    name: "Sharks",
-    city: "San Jose",
-    route: "sharks",
-  },
-  {
-    name: "Canucks",
-    city: "Vancouver",
-    route: "canucks",
-  },
-  {
-    name: "Blackhawks",
-    city: "Chicago",
-    route: "blackhawks",
-  },
-  {
-    name: "Avalanche",
-    city: "Colorado",
-    route: "avalanche",
-  },
-  {
-    name: "Stars",
-    city: "Dallas",
-    route: "stars",
-  },
-  {
-    name: "Wild",
-    city: "Minnesota",
-    route: "wild",
-  },
-  {
-    name: "Predators",
-    city: "Nashville",
-    route: "predators",
-  },
-  {
-    name: "Blues",
-    city: "St. Louis",
-    route: "blues",
-  },
-  {
-    name: "Jets",
-    city: "Winnipeg",
-    route: "jets",
-  },
-  {
-    name: "Bruins",
-    city: "Boston",
-    route: "bruins",
-  },
-  {
-    name: "Sabres",
-    city: "Buffalo",
-    route: "sabres",
-  },
-  {
-    name: "Red Wings",
-    city: "Detroit",
-    route: "redwings",
-  },
-  {
-    name: "Panthers",
-    city: "Florida",
-    route: "panthers",
-  },
-  {
-    name: "Canadiens",
-    city: "Montréal",
-    route: "canadiens",
-  },
-  {
-    name: "Senators",
-    city: "Ottawa",
-    route: "senators",
-  },
-  {
-    name: "Lightning",
-    city: "Tampa Bay",
-    route: "lightning",
-  },
-  {
-    name: "Maple Leafs",
-    city: "Toronto",
-    route: "mapleleafs",
-  },
-];
 
 function Teams() {
   const { loading, data } = useQuery(FETCH_TEAMS_QUERY, {
@@ -159,7 +37,7 @@ function Teams() {
             }}
           />
         </Grid>
-        {team_names
+        {teamNames
           .filter((team) => {
             if (searchTerm == "") {
               return team;
@@ -176,8 +54,13 @@ function Teams() {
                 to={`/teams/${team.route}`}
                 style={{ textDecoration: "none" }}
               >
-                <Item>
-                  <Typography>
+                <Item
+                  sx={{
+                    backgroundColor: team.primary_colour,
+                    borderBottom: `4px solid ${team.secondary_colour}`,
+                  }}
+                >
+                  <Typography variant="h6" color="white">
                     {team.city} {team.name}
                   </Typography>
                 </Item>

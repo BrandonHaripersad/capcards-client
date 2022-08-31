@@ -6,16 +6,20 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Link, useLocation } from "react-router-dom";
 import Container from "@mui/material/Container";
+import teamNames from "../data/teams";
 
 function MenuBar() {
   const [navBg, setNavBg] = useState("blue");
   const location = useLocation();
 
   useEffect(() => {
-    if (location.pathname == "/teams/flames") {
-      setNavBg("#D2001C");
-    } else if (location.pathname == "/teams/mapleleafs") {
-      setNavBg("#00205B");
+    const team = location.pathname.split("/")[2];
+    const index = teamNames.map((e) => e.route).indexOf(team);
+    if (index != -1) {
+      const colour = teamNames[index].primary_colour;
+      setNavBg(colour);
+    } else {
+      setNavBg("primary");
     }
   }, [location]);
 

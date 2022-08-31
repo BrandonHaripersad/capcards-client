@@ -5,13 +5,13 @@ import {
   Avatar,
   CardContent,
   Typography,
-  CardActions,
   Chip,
 } from "@mui/material";
 import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
 import Tooltip from "@mui/material/Tooltip";
+import teamNames from "../data/teams";
 import "react-circular-progressbar/dist/styles.css";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
@@ -19,17 +19,12 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 
 function stringToColor(string) {
-  let color = "";
-
-  if (string == "mapleleafs") {
-    color = "#00205B";
-  }
-
-  return color;
+  const index = teamNames.map((e) => e.route).indexOf(string);
+  return teamNames[index].primary_colour;
 }
 
 function stringAvatar(name, teamname) {
-  if (name == null) {
+  if (name === null) {
     return "";
   } else {
     return {
@@ -44,7 +39,7 @@ function stringAvatar(name, teamname) {
 }
 
 function formatName(name) {
-  if (name == null) {
+  if (name === null) {
     return "";
   } else {
     return name.split(" ");
@@ -52,11 +47,11 @@ function formatName(name) {
 }
 
 function yearsRemaining(yr, option) {
-  if (yr == null) {
+  if (yr === null) {
     return "";
   } else {
     var res = yr.split(" ");
-    if (option == "year") {
+    if (option === "year") {
       return res[0];
     } else {
       return res[1];
@@ -66,6 +61,7 @@ function yearsRemaining(yr, option) {
 
 function PlayerCard(props) {
   const formattedName = formatName(props.name);
+  const teamColour = stringToColor(props.teamName);
 
   return (
     <Card>
@@ -116,19 +112,19 @@ function PlayerCard(props) {
         </div>
         <Divider />
         <Stack direction="row" spacing={1}>
-          {props.clauses == "NMC" ? (
+          {props.clauses === "NMC" ? (
             <div style={{ paddingTop: 15 }}>
               <Tooltip title="No Movement Clause">
                 <Chip color="error" label="NMC" />
               </Tooltip>
             </div>
-          ) : props.clauses == "M-NTC" ? (
+          ) : props.clauses === "M-NTC" ? (
             <div style={{ paddingTop: 15 }}>
               <Tooltip title="Modified No Movement Clause">
                 <Chip color="warning" label="M-NTC" />
               </Tooltip>
             </div>
-          ) : props.clauses == "35+NMC" ? (
+          ) : props.clauses === "35+NMC" ? (
             <div style={{ paddingTop: 15 }}>
               <Tooltip title="35+ No Movement Clause">
                 <Chip color="error" label="35+ NMC" />
@@ -138,21 +134,21 @@ function PlayerCard(props) {
             <div></div>
           )}
 
-          {props.status == "Draft" ? (
+          {props.status === "Draft" ? (
             <div style={{ paddingTop: 15 }}>
-              <Tooltip title="This player was drafted by the organization">
+              <Tooltip title="This player was aquired via the draft.">
                 <Chip color="primary" label="Drafted" />
               </Tooltip>
             </div>
-          ) : props.status == "Signed" ? (
+          ) : props.status === "Signed" ? (
             <div style={{ paddingTop: 15 }}>
-              <Tooltip title="This was signed by the organization">
+              <Tooltip title="This player was aquired via free agent signing.">
                 <Chip color="secondary" label="Signed" />
               </Tooltip>
             </div>
           ) : (
             <div style={{ paddingTop: 15 }}>
-              <Tooltip title="This player was aquired via trade by the organization">
+              <Tooltip title="This player was aquired via a trade">
                 <Chip color="success" label="Trade" />
               </Tooltip>
             </div>

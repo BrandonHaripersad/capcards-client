@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
 import CardBanner from "../components/CardBanner";
 import PlayerCard from "../components/PlayerCard";
 import CapInfo from "../components/CapInfo";
+import PositionalCap from "../components/PositionalCap";
+import PlayerTable from "../components/PlayerTable";
 import { Box } from "@mui/system";
-import { Grid } from "@mui/material";
+import { Grid, Typography, Avatar } from "@mui/material";
 import Paper from "@mui/material/Paper";
+import Skeleton from "@mui/material/Skeleton";
 
 function TeamCard(props) {
   const { name } = useParams();
@@ -22,7 +25,7 @@ function TeamCard(props) {
           {error ? (
             <h1>Error</h1>
           ) : loading ? (
-            <h1>Loading...</h1>
+            <Skeleton />
           ) : (
             <Paper
               sx={{
@@ -44,7 +47,7 @@ function TeamCard(props) {
           {error ? (
             <h1>Error</h1>
           ) : loading ? (
-            <h1>Loading...</h1>
+            <Skeleton />
           ) : (
             <Paper
               sx={{
@@ -65,8 +68,15 @@ function TeamCard(props) {
             </Paper>
           )}
         </Grid>
+        <Grid item xs={12} md={12} lg={12}>
+          <Typography color="text.primary" variant="h5">
+            Largest Cap Hits
+          </Typography>
+        </Grid>
         {loading ? (
-          <h1>Loading...</h1>
+          <Skeleton variant="circular">
+            <Avatar />
+          </Skeleton>
         ) : (
           data.getTeambyName[0].players.slice(0, 3).map((player) => (
             <Grid item xs={12} md={4} lg={4}>
@@ -84,6 +94,42 @@ function TeamCard(props) {
             </Grid>
           ))
         )}
+        <Grid item xs={12} md={12} lg={12}>
+          <Typography color="text.primary" variant="h5">
+            Cap Allocation
+          </Typography>
+        </Grid>
+        {loading ? (
+          <Skeleton />
+        ) : (
+          <Grid item xs={12}>
+            <Paper
+              sx={{
+                alignItems: "center",
+                justifyContent: "center",
+                textAlign: "center",
+                verticalAlign: "middle",
+              }}
+            >
+              <PositionalCap
+                teamName={data.getTeambyName[0].name}
+                fPercentage={data.getTeambyName[0].positionalCap[0].percentage}
+                fRank={data.getTeambyName[0].positionalCap[0].rank}
+                dPercentage={data.getTeambyName[0].positionalCap[1].percentage}
+                dRank={data.getTeambyName[0].positionalCap[1].rank}
+                gPercentage={data.getTeambyName[0].positionalCap[2].percentage}
+                gRank={data.getTeambyName[0].positionalCap[2].rank}
+              />
+            </Paper>
+          </Grid>
+        )}
+        <Grid item xs={12}>
+          {loading ? (
+            <Skeleton />
+          ) : (
+            <PlayerTable players={data.getTeambyName[0].players} />
+          )}
+        </Grid>
       </Grid>
     </Box>
   );
