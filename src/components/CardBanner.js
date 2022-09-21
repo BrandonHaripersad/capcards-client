@@ -11,30 +11,65 @@ function getTeamName(name) {
   return res;
 }
 
+function getTeamColour(name) {
+  const index = teamNames.map((e) => e.route).indexOf(name);
+  const res = teamNames[index].primary_colour;
+  return res;
+}
+
+function getSecondaryColour(name) {
+  const index = teamNames.map((e) => e.route).indexOf(name);
+  const res = teamNames[index].secondary_colour;
+  return res;
+}
+
 function CardBanner(props) {
   const fullName = getTeamName(props.teamname);
+  const primaryColour = getTeamColour(props.teamname);
+  const secondaryColour = getSecondaryColour(props.teamname);
   return (
-    <Card sx={{ display: "flex", alignItems: "center" }} elevation="0">
+    <Card
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        textAlign: "center",
+        verticalAlign: "middle",
+        backgroundColor: primaryColour,
+        height: 150,
+        border: `4px solid ${secondaryColour}`,
+      }}
+      elevation="0"
+    >
+      {/*
       <CardMedia
         component="img"
         sx={{ width: 85, padding: 1, paddingLeft: 3 }}
         image={`/images/teams/${props.teamname}.png`}
         alt={props.teamname}
       />
+  */}
       <Box sx={{ display: "flex", flexDirection: "column" }}>
-        <CardContent>
-          <Typography bolded variant="h4" component="h1" pl={1}>
-            {fullName}
-          </Typography>
-          <Typography bolded variant="subtitle1" pl={1}>
-            as of:
-            <Moment format=" MMMM DD, YYYY">{props.dateCreated}</Moment>
-          </Typography>
-          <Typography bolded variant="subtitle2" color="text.secondary" pl={1}>
-            information via{" "}
-            <a href="https://www.capfriendly.com/">CapFriendly</a>
-          </Typography>
-        </CardContent>
+        <Typography variant="h4" component="h1" color="white" fontWeight="500">
+          {fullName}
+        </Typography>
+        <Typography variant="subtitle1" color="white">
+          as of:
+          <Moment format=" MMMM DD, YYYY">{props.dateCreated}</Moment>
+        </Typography>
+        <Typography variant="subtitle2" color="white">
+          information via{" "}
+          <a
+            style={{
+              textDecoration: "underline",
+              color: "white",
+              fontWeight: "800",
+            }}
+            href="https://www.capfriendly.com/"
+          >
+            CapFriendly
+          </a>
+        </Typography>
       </Box>
     </Card>
   );

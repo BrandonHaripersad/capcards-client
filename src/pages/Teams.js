@@ -49,7 +49,7 @@ function Teams() {
             }
           })
           .map((team) => (
-            <Grid item xs={4}>
+            <Grid item xs={6} md={4} lg={4}>
               <Link
                 to={`/teams/${team.route}`}
                 style={{ textDecoration: "none" }}

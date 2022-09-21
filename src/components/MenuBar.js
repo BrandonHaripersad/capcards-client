@@ -34,9 +34,6 @@ function MenuBar() {
             <Button color="inherit" component={Link} to="/">
               Home
             </Button>
-            <Button color="inherit" component={Link} to="/teams">
-              Teams
-            </Button>
           </Toolbar>
         </Container>
       </AppBar>

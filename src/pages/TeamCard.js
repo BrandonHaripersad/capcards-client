@@ -7,9 +7,13 @@ import CapInfo from "../components/CapInfo";
 import PositionalCap from "../components/PositionalCap";
 import PlayerTable from "../components/PlayerTable";
 import { Box } from "@mui/system";
-import { Grid, Typography, Avatar } from "@mui/material";
+import { Grid, Typography, Avatar, TextField } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Skeleton from "@mui/material/Skeleton";
+import PlayerDisplay from "../components/PlayerDisplay";
+import { useState } from "react";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
 
 function TeamCard(props) {
   const { name } = useParams();
@@ -17,6 +21,8 @@ function TeamCard(props) {
   const { loading, error, data } = useQuery(FETCH_TEAMS_QUERY, {
     variables: { name: name },
   });
+
+  const [searchTerm, setSearchTerm] = useState("");
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -74,9 +80,9 @@ function TeamCard(props) {
           </Typography>
         </Grid>
         {loading ? (
-          <Skeleton variant="circular">
-            <Avatar />
-          </Skeleton>
+          <Grid item xs={12} md={12} lg={12}>
+            <Skeleton />
+          </Grid>
         ) : (
           data.getTeambyName[0].players.slice(0, 3).map((player) => (
             <Grid item xs={12} md={4} lg={4}>
@@ -100,7 +106,9 @@ function TeamCard(props) {
           </Typography>
         </Grid>
         {loading ? (
-          <Skeleton />
+          <Grid item xs={12}>
+            <Skeleton />
+          </Grid>
         ) : (
           <Grid item xs={12}>
             <Paper
@@ -123,13 +131,60 @@ function TeamCard(props) {
             </Paper>
           </Grid>
         )}
-        <Grid item xs={12}>
-          {loading ? (
-            <Skeleton />
-          ) : (
-            <PlayerTable players={data.getTeambyName[0].players} />
-          )}
+        <Grid item xs={12} md={12} lg={12}>
+          <Typography color="text.primary" variant="h5" gutterBottom>
+            Roster
+          </Typography>
+          <Alert severity="info">
+            Search for players by <strong>Name</strong> or by{" "}
+            <strong>Acquisition Method</strong> (i.e Draft, Trade or Signed).
+            Click the <strong>Arrow</strong> next to the players name to see
+            more information.
+          </Alert>
         </Grid>
+        <Grid item xs={12} md={12} lg={12}>
+          <TextField
+            type="text"
+            placeholder="Search for player"
+            variant="outlined"
+            fullWidth
+            onChange={(event) => {
+              setSearchTerm(event.target.value);
+            }}
+          />
+        </Grid>
+        {loading ? (
+          <Grid item xs={12} md={12} lg={12}>
+            <Skeleton />
+          </Grid>
+        ) : (
+          data.getTeambyName[0].players
+            .filter((player) => {
+              if (searchTerm == "") {
+                return player;
+              } else if (
+                player.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                player.status.toLowerCase().includes(searchTerm.toLowerCase())
+              ) {
+                return player;
+              }
+            })
+            .map((player) => (
+              <Grid item xs={6} md={4} lg={4}>
+                <PlayerDisplay
+                  name={player.name}
+                  teamName={data.getTeambyName[0].name}
+                  position={player.position}
+                  age={player.age}
+                  caphit={player.capHit}
+                  yearsRemaining={player.yearsRemaining}
+                  capPercentage={player.capPercentage}
+                  clauses={player.clauses}
+                  status={player.status}
+                />
+              </Grid>
+            ))
+        )}
       </Grid>
     </Box>
   );
