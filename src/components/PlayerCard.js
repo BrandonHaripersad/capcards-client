@@ -7,11 +7,15 @@ import {
   Typography,
   Chip,
 } from "@mui/material";
-import { CircularProgressbarWithChildren } from "react-circular-progressbar";
+import {
+  CircularProgressbarWithChildren,
+  buildStyles,
+} from "react-circular-progressbar";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
 import Tooltip from "@mui/material/Tooltip";
 import teamNames from "../data/teams";
+import PaidIcon from "@mui/icons-material/Paid";
 import "react-circular-progressbar/dist/styles.css";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
@@ -42,7 +46,9 @@ function formatName(name) {
   if (name === null) {
     return "";
   } else {
-    return name.split(" ");
+    var temp = name.split(",");
+    var clean = temp[1].replace('"C"', "").replace('"A"', "");
+    return [temp[0], clean];
   }
 }
 
@@ -67,14 +73,14 @@ function PlayerCard(props) {
     <Card>
       <CardHeader
         avatar={<Avatar {...stringAvatar(props.name, props.teamName)} />}
-        title={`${formattedName[1]} ${formattedName[0].slice(0, -1)}`}
+        title={`${formattedName[1]} ${formattedName[0]}`}
         subheader={`${props.position} | ${props.age} years old`}
         sx={{ paddingBottom: 0 }}
       />
       <CardContent sx={{ paddingTop: 1 }}>
         <Divider />
         <div style={{ paddingTop: 7, paddingBottom: 7 }}>
-          <Typography variant="h6" align="center">
+          <Typography variant="h6" align="center" color="green">
             <strong>
               $
               {props.caphit.toLocaleString(undefined, {
@@ -82,8 +88,8 @@ function PlayerCard(props) {
               })}
             </strong>
           </Typography>
-          <Typography variant="body1" align="center" gutterBottom="true">
-            with <strong>{yearsRemaining(props.yearsRemaining, "year")}</strong>{" "}
+          <Typography variant="body2" align="center" gutterBottom="true">
+            <strong>{yearsRemaining(props.yearsRemaining, "year")}</strong>{" "}
             years remaining until{" "}
             <strong>{yearsRemaining(props.yearsRemaining, "status")}</strong>
           </Typography>
@@ -102,6 +108,9 @@ function PlayerCard(props) {
               strokeWidth={8}
               value={props.capPercentage}
               maxValue={100}
+              styles={buildStyles({
+                pathColor: stringToColor(props.teamName),
+              })}
             >
               <div style={{ fontSize: 18, marginTop: -5 }}>
                 <strong>{props.capPercentage}%</strong>
@@ -114,21 +123,39 @@ function PlayerCard(props) {
         <Stack direction="row" spacing={1}>
           {props.clauses === "NMC" ? (
             <div style={{ paddingTop: 15 }}>
-              <Tooltip title="No Movement Clause">
-                <Chip color="error" label="NMC" />
-              </Tooltip>
+              <a
+                href={props.link}
+                style={{ textDecoration: "none" }}
+                target="_blank"
+              >
+                <Tooltip title="No Movement Clause">
+                  <Chip color="warning" label="NMC" clickable />
+                </Tooltip>
+              </a>
             </div>
           ) : props.clauses === "M-NTC" ? (
             <div style={{ paddingTop: 15 }}>
-              <Tooltip title="Modified No Movement Clause">
-                <Chip color="warning" label="M-NTC" />
-              </Tooltip>
+              <a
+                href={props.link}
+                style={{ textDecoration: "none" }}
+                target="_blank"
+              >
+                <Tooltip title="Modified No Movement Clause">
+                  <Chip color="warning" label="M-NTC" clickable />
+                </Tooltip>
+              </a>
             </div>
           ) : props.clauses === "35+NMC" ? (
             <div style={{ paddingTop: 15 }}>
-              <Tooltip title="35+ No Movement Clause">
-                <Chip color="error" label="35+ NMC" />
-              </Tooltip>
+              <a
+                href={props.link}
+                style={{ textDecoration: "none" }}
+                target="_blank"
+              >
+                <Tooltip title="35+ No Movement Clause">
+                  <Chip color="warning" label="35+ NMC" clickable />
+                </Tooltip>
+              </a>
             </div>
           ) : (
             <div></div>
@@ -136,22 +163,68 @@ function PlayerCard(props) {
 
           {props.status === "Draft" ? (
             <div style={{ paddingTop: 15 }}>
-              <Tooltip title="This player was aquired via the draft.">
-                <Chip color="primary" label="Drafted" />
-              </Tooltip>
+              <a
+                href={props.transactionLink}
+                style={{ textDecoration: "none" }}
+                target="_blank"
+              >
+                <Tooltip title="This player was aquired via the draft.">
+                  <Chip color="primary" label="Drafted" clickable />
+                </Tooltip>
+              </a>
             </div>
           ) : props.status === "Signed" ? (
             <div style={{ paddingTop: 15 }}>
-              <Tooltip title="This player was aquired via free agent signing.">
-                <Chip color="secondary" label="Signed" />
-              </Tooltip>
+              <a
+                href={props.transactionLink}
+                style={{ textDecoration: "none" }}
+                target="_blank"
+              >
+                <Tooltip title="This player was aquired via free agent signing.">
+                  <Chip color="secondary" label="Signed" clickable />
+                </Tooltip>
+              </a>
             </div>
           ) : (
             <div style={{ paddingTop: 15 }}>
-              <Tooltip title="This player was aquired via a trade">
-                <Chip color="success" label="Trade" />
-              </Tooltip>
+              <a
+                href={props.transactionLink}
+                style={{ textDecoration: "none" }}
+                target="_blank"
+              >
+                <Tooltip title="This player was aquired via a trade">
+                  <Chip color="success" label="Trade" clickable />
+                </Tooltip>
+              </a>
             </div>
+          )}
+
+          {props.injury === "IR" ? (
+            <div style={{ paddingTop: 15 }}>
+              <a
+                href={props.transactionLink}
+                style={{ textDecoration: "none" }}
+                target="_blank"
+              >
+                <Tooltip title="This player is on the Injured Reserve.">
+                  <Chip color="error" label="IR" clickable />
+                </Tooltip>
+              </a>
+            </div>
+          ) : props.injury === "LTIR" ? (
+            <div style={{ paddingTop: 15 }}>
+              <a
+                href={props.transactionLink}
+                style={{ textDecoration: "none" }}
+                target="_blank"
+              >
+                <Tooltip title="This player is on the Long Term Injured Reserve.">
+                  <Chip color="error" label="LTIR" clickable />
+                </Tooltip>
+              </a>
+            </div>
+          ) : (
+            <div></div>
           )}
         </Stack>
       </CardContent>

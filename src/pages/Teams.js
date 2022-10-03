@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import teamNames from "../data/teams";
+import Alert from "@mui/material/Alert";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -26,6 +27,14 @@ function Teams() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Alert severity="info">
+            Select or search for a team and get a quick overview of there
+            current salary cap situation. Information such as there top earning
+            players, postional cap allocation and much more is currently
+            avalible. <strong>More coming in the near future!</strong>
+          </Alert>
+        </Grid>
         <Grid item xs={12}>
           <TextField
             type="text"

@@ -15,12 +15,6 @@ function App() {
   return (
     <BrowserRouter>
       <MenuBar />
-      <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
-        <Routes>
-          <Route path="/" element={<Teams />} />
-          <Route path="/teams/:name" element={<TeamCard />} />
-        </Routes>
-      </Container>
     </BrowserRouter>
   );
 }

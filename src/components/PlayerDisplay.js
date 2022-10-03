@@ -54,7 +54,9 @@ function formatName(name) {
   if (name === null) {
     return "";
   } else {
-    return name.split(" ");
+    var temp = name.split(",");
+    var clean = temp[1].replace('"C"', "").replace('"A"', "");
+    return [temp[0], clean];
   }
 }
 
@@ -95,7 +97,7 @@ function PlayerDisplay(props) {
     <Card>
       <CardHeader
         avatar={<Avatar {...stringAvatar(props.name, props.teamName)} />}
-        title={`${formattedName[1]} ${formattedName[0].slice(0, -1)}`}
+        title={`${formattedName[1]} ${formattedName[0]}`}
         subheader={`${props.position} | ${props.age} years old`}
         sx={{ paddingBottom: 0 }}
         action={
@@ -167,38 +169,110 @@ function PlayerDisplay(props) {
               secondary={`${props.capPercentage}`}
             />
           </ListItem>
-          <Divider variant="inset" component="li" />
-          <ListItem>
-            <ListItemAvatar>
-              <Avatar>
-                <PersonAddAlt1Icon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText
-              primary="Method Aquired"
-              secondary={`${props.status}`}
-            />
-          </ListItem>
           <Divider variant="middle" />
           <ListItem>
             <Stack direction="row" spacing={1}>
               {props.clauses === "NMC" ? (
                 <div style={{ paddingTop: 5 }}>
-                  <Tooltip title="No Movement Clause">
-                    <Chip color="error" label="NMC" />
-                  </Tooltip>
+                  <a
+                    href={props.link}
+                    style={{ textDecoration: "none" }}
+                    target="_blank"
+                  >
+                    <Tooltip title="No Movement Clause">
+                      <Chip color="warning" label="NMC" clickable />
+                    </Tooltip>
+                  </a>
                 </div>
               ) : props.clauses === "M-NTC" ? (
                 <div style={{ paddingTop: 5 }}>
-                  <Tooltip title="Modified No Movement Clause">
-                    <Chip color="warning" label="M-NTC" />
-                  </Tooltip>
+                  <a
+                    href={props.link}
+                    style={{ textDecoration: "none" }}
+                    target="_blank"
+                  >
+                    <Tooltip title="Modified No Movement Clause">
+                      <Chip color="warning" label="M-NTC" clickable />
+                    </Tooltip>
+                  </a>
                 </div>
               ) : props.clauses === "35+NMC" ? (
                 <div style={{ paddingTop: 5 }}>
-                  <Tooltip title="35+ No Movement Clause">
-                    <Chip color="error" label="35+ NMC" />
-                  </Tooltip>
+                  <a
+                    href={props.link}
+                    style={{ textDecoration: "none" }}
+                    target="_blank"
+                  >
+                    <Tooltip title="35+ No Movement Clause">
+                      <Chip color="warning" label="35+ NMC" clickable />
+                    </Tooltip>
+                  </a>
+                </div>
+              ) : (
+                <div></div>
+              )}
+
+              {props.status === "Draft" ? (
+                <div style={{ paddingTop: 5 }}>
+                  <a
+                    href={props.transactionLink}
+                    style={{ textDecoration: "none" }}
+                    target="_blank"
+                  >
+                    <Tooltip title="This player was aquired via the draft.">
+                      <Chip color="primary" label="Drafted" clickable />
+                    </Tooltip>
+                  </a>
+                </div>
+              ) : props.status === "Signed" ? (
+                <div style={{ paddingTop: 5 }}>
+                  <a
+                    href={props.transactionLink}
+                    style={{ textDecoration: "none" }}
+                    target="_blank"
+                  >
+                    <Tooltip title="This player was aquired via free agent signing.">
+                      <Chip color="secondary" label="Signed" clickable />
+                    </Tooltip>
+                  </a>
+                </div>
+              ) : (
+                <div style={{ paddingTop: 5 }}>
+                  <a
+                    href={props.transactionLink}
+                    style={{ textDecoration: "none" }}
+                    target="_blank"
+                  >
+                    <Tooltip title="This player was aquired via a trade">
+                      <Chip color="success" label="Trade" clickable />
+                    </Tooltip>
+                  </a>
+                </div>
+              )}
+
+              {props.injury === "IR" ? (
+                <div style={{ paddingTop: 5 }}>
+                  <a
+                    href={props.transactionLink}
+                    style={{ textDecoration: "none" }}
+                    target="_blank"
+                  >
+                    <Tooltip title="This player is on the Injured Reserve.">
+                      <Chip color="error" label="IR" clickable />
+                    </Tooltip>
+                  </a>
+                </div>
+              ) : props.injury === "LTIR" ? (
+                <div style={{ paddingTop: 5 }}>
+                  <a
+                    href={props.transactionLink}
+                    style={{ textDecoration: "none" }}
+                    target="_blank"
+                  >
+                    <Tooltip title="This player is on the Long Term Injured Reserve.">
+                      <Chip color="error" label="LTIR" clickable />
+                    </Tooltip>
+                  </a>
                 </div>
               ) : (
                 <div></div>

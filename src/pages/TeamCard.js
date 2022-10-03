@@ -96,6 +96,9 @@ function TeamCard(props) {
                 capPercentage={player.capPercentage}
                 clauses={player.clauses}
                 status={player.status}
+                injury={player.injury}
+                link={player.link}
+                transactionLink={player.transactionLink}
               />
             </Grid>
           ))
@@ -136,10 +139,11 @@ function TeamCard(props) {
             Roster
           </Typography>
           <Alert severity="info">
-            Search for players by <strong>Name</strong> or by{" "}
-            <strong>Acquisition Method</strong> (i.e Draft, Trade or Signed).
-            Click the <strong>Arrow</strong> next to the players name to see
-            more information.
+            Search for players by <strong>Name</strong>, by{" "}
+            <strong>Acquisition Method</strong> (i.e Draft, Trade or Signed) or
+            by <strong>Injury Status</strong> (i.e LTIR or IR) Click the{" "}
+            <strong>Arrow</strong> next to the players name to see more
+            information.
           </Alert>
         </Grid>
         <Grid item xs={12} md={12} lg={12}>
@@ -164,7 +168,10 @@ function TeamCard(props) {
                 return player;
               } else if (
                 player.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                player.status.toLowerCase().includes(searchTerm.toLowerCase())
+                player.status
+                  .toLowerCase()
+                  .includes(searchTerm.toLowerCase()) ||
+                player.injury.toLowerCase().includes(searchTerm.toLowerCase())
               ) {
                 return player;
               }
@@ -181,6 +188,9 @@ function TeamCard(props) {
                   capPercentage={player.capPercentage}
                   clauses={player.clauses}
                   status={player.status}
+                  injury={player.injury}
+                  link={player.link}
+                  transactionLink={player.transactionLink}
                 />
               </Grid>
             ))
@@ -208,9 +218,12 @@ const FETCH_TEAMS_QUERY = gql`
         yearsRemaining
         clauses
         status
+        injury
         age
         capPercentage
         capHit
+        link
+        transactionLink
       }
       dateCreated
     }
