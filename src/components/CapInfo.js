@@ -57,7 +57,11 @@ function CapInfo(props) {
           align="center"
           pt={1}
         >
-          with ${props.projLTIR} in Projected LTIR Used
+          with $
+          {props.projLTIR.toLocaleString(undefined, {
+            maximumFractionDigits: 2,
+          })}{" "}
+          in LTIR space used.
         </Typography>
       </div>
     </React.Fragment>
